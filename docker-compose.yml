@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  collabora:
+    build:
+      context: .
+      dockerfile: docker/collabora/Dockerfile
+    networks:
+      - collabora
+    ports:
+      - 9980:9980
+    env_file:
+      - .env
+    tty: true
+    restart: always
+
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    networks:
+      - collabora
+    ports:
+      - ${WEB_PORT:-82}:5173
+    env_file: .env
+    depends_on:
+      - collabora
+    volumes:
+      - ./web:/collabora/web
+    tty: true
+    restart: always
+
+  go:
+    build:
+      context: .
+      dockerfile: docker/go/Dockerfile
+    networks:
+      - collabora
+    ports:
+      - ${WOPI_PORT:-88}:80
+    volumes: 
+      - ./wopi:/collabora/wopi
+    tty: true
+    restart: always
+
+networks:
+  collabora:

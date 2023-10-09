@@ -1,0 +1,5 @@
+wopi/.tmp
+.env
+*.pem
+*.crt
+*.key
