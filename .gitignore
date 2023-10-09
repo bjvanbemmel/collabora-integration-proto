@@ -1,4 +1,5 @@
 wopi/.tmp
+wopi/.storage
 .env
 *.pem
 *.crt
